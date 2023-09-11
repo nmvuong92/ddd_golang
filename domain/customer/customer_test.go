@@ -1,4 +1,4 @@
-package aggregates
+package customer
 
 import (
 	"errors"

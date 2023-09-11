@@ -1,10 +1,9 @@
 package memory
 
 import (
-	"ddd_golang/aggregates"
-	"ddd_golang/domain/customer"
 	"errors"
 	"github.com/google/uuid"
+	"tavern/domain/customer"
 	"testing"
 )
 
@@ -15,7 +14,7 @@ func TestMemory_GetCustomer(t *testing.T) {
 		expectedErr error
 	}
 
-	cus, err := aggregates.NewCustomer("percy")
+	cus, err := customer.NewCustomer("percy")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -23,7 +22,7 @@ func TestMemory_GetCustomer(t *testing.T) {
 	id := cus.GetID()
 
 	repo := MemoryRepository{
-		customers: map[uuid.UUID]aggregates.Customer{
+		customers: map[uuid.UUID]customer.Customer{
 			id: cus,
 		},
 	}

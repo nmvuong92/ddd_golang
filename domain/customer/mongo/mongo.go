@@ -2,11 +2,11 @@ package mongo
 
 import (
 	"context"
-	"ddd_golang/aggregates"
 	"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"tavern/domain/customer"
 	"time"
 )
 
@@ -21,15 +21,15 @@ type mongoCustomer struct {
 	Name string    `bson:"name"`
 }
 
-func NewFromCustomer(c aggregates.Customer) mongoCustomer {
+func NewFromCustomer(c customer.Customer) mongoCustomer {
 	return mongoCustomer{
 		ID:   c.GetID(),
 		Name: c.GetName(),
 	}
 }
 
-func (m *mongoCustomer) ToAggregate() aggregates.Customer {
-	c := aggregates.Customer{}
+func (m *mongoCustomer) ToAggregate() customer.Customer {
+	c := customer.Customer{}
 
 	c.SetID(m.ID)
 	c.SetName(m.Name)
@@ -50,7 +50,7 @@ func New(ctx context.Context, connectionString string) (*MongoRepository, error)
 	}, nil
 }
 
-func (mr *MongoRepository) Get(id uuid.UUID) (aggregates.Customer, error) {
+func (mr *MongoRepository) Get(id uuid.UUID) (customer.Customer, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	result := mr.customer.FindOne(ctx, bson.M{"id": id})
@@ -59,12 +59,12 @@ func (mr *MongoRepository) Get(id uuid.UUID) (aggregates.Customer, error) {
 
 	err := result.Decode(&c)
 	if err != nil {
-		return aggregates.Customer{}, err
+		return customer.Customer{}, err
 	}
 	return c.ToAggregate(), nil
 }
 
-func (mr *MongoRepository) Add(c aggregates.Customer) error {
+func (mr *MongoRepository) Add(c customer.Customer) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -77,6 +77,6 @@ func (mr *MongoRepository) Add(c aggregates.Customer) error {
 	return nil
 }
 
-func (mr *MongoRepository) Update(c aggregates.Customer) error {
+func (mr *MongoRepository) Update(c customer.Customer) error {
 	panic("to implement")
 }

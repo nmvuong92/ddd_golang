@@ -1,33 +1,34 @@
-package services
+package order
 
 import (
-	"ddd_golang/aggregates"
 	"github.com/google/uuid"
+	"tavern/domain/customer"
+	"tavern/domain/product"
 	"testing"
 )
 
 // initialize test easier (create simple array product for us)
-func init_products(t *testing.T) []aggregates.Product {
-	beer, err := aggregates.NewProduct("beer", "healthy rice", 10)
+func Init_products(t *testing.T) []product.Product {
+	beer, err := product.NewProduct("beer", "healthy rice", 10)
 	if err != nil {
 		t.Fatal(err)
 	}
-	peenuts, err := aggregates.NewProduct("peanuts", "snacks", 0.99)
+	peenuts, err := product.NewProduct("peanuts", "snacks", 0.99)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	wine, err := aggregates.NewProduct("wine", "nasty drink", 0.99)
+	wine, err := product.NewProduct("wine", "nasty drink", 0.99)
 	if err != nil {
 		t.Fatal(err)
 	}
-	return []aggregates.Product{
+	return []product.Product{
 		beer, peenuts, wine,
 	}
 }
 
 func TestOrder_NewOrderService(t *testing.T) {
-	products := init_products(t)
+	products := Init_products(t)
 
 	// how cool configuration pattern,
 	// make realy easy in the future
@@ -40,7 +41,7 @@ func TestOrder_NewOrderService(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cust, err := aggregates.NewCustomer("percy")
+	cust, err := customer.NewCustomer("percy")
 	if err != nil {
 		t.Error(err)
 	}

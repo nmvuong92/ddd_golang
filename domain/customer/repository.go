@@ -1,7 +1,6 @@
 package customer
 
 import (
-	"ddd_golang/aggregates"
 	"errors"
 	"github.com/google/uuid"
 )
@@ -12,8 +11,9 @@ var (
 	ErrUpdateCustomer      = errors.New("failed to update the customer")
 )
 
-type CustomerRepository interface {
-	Get(uuid uuid.UUID) (aggregates.Customer, error) // can impl it via mongodb, inmemory, mysql...
-	Add(customer aggregates.Customer) error
-	Update(customer aggregates.Customer) error
+// // to manage and handle the customer aggregate
+type Repository interface {
+	Get(uuid uuid.UUID) (Customer, error) // can impl it via mongodb, inmemory, mysql...
+	Add(customer Customer) error
+	Update(customer Customer) error
 }
