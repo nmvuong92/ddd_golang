@@ -12,10 +12,12 @@
 # Subdomain
 
 # Aggregates
+- hold many entities and value-objects, but they are related to one root entity
+- we use repository which manages the aggregate
 - unique identifier by root Entity
 - Multiple Entities / Value Objects combined
 - Aggregate like a Container
-- Aggregate is a business logic for customer should be inside inside a aggregates not entity
+- Aggregate is a business logic for customer should be inside an aggregates not entity
 - use Factory for instantiated
 - use Repository to store data (Db, disk, cloud, ram...)
 - combination of entities or valueobject
@@ -47,6 +49,12 @@
   - we cannot modify data in aggregate directly customer_aggregate.prop = value (wrong)
   - so we need to create some exposed function to handle that
 
+  # services
+  - business logic
+  - accept multiple repositories as input for instance
+  - service configuration pattern (design pattern) allow create flexible modular service
+  - one service can have >10 repositories...
+  - service which combines and ties together to repository
 
 
 

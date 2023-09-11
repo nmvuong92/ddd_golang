@@ -9,6 +9,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// root entity
 type Customer struct {
 	// person is the root entity of customer
 	// which means person.ID is the main identifier for the customer
