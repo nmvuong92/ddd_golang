@@ -44,8 +44,7 @@ func (c *Customer) GetID() uuid.UUID {
 }
 
 func (c *Customer) SetID(id uuid.UUID) {
-
-	if c.person != nil {
+	if c.person == nil {
 		c.person = &tavern.Person{}
 	}
 	c.person.ID = id
