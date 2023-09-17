@@ -4,17 +4,17 @@ import (
 	"context"
 	"github.com/google/uuid"
 	"tavern/domain/product"
-	order2 "tavern/services/order"
+	"tavern/services/order"
 	"tavern/services/tavern"
 )
 
 func main() {
 	products := productInventory()
 
-	os, err := order2.NewOrderService(
+	os, err := order.NewOrderService(
 		//order2.WithMemoryCustomerRepository(),
-		order2.WithMongoCustomerRepository(context.Background(), "mongodb://localhost:27017"),
-		order2.WithMemoryProductRepository(products),
+		order.WithMongoCustomerRepository(context.Background(), "mongodb://localhost:27017"),
+		order.WithMemoryProductRepository(products),
 	)
 	if err != nil {
 		panic(err)
@@ -31,11 +31,11 @@ func main() {
 		panic(err)
 	}
 
-	order := []uuid.UUID{
+	orderItem := []uuid.UUID{
 		products[0].GetID(),
 	}
 
-	err = tarvenObject.Order(uid, order)
+	err = tarvenObject.Order(uid, orderItem)
 	if err != nil {
 		panic(err)
 	}
