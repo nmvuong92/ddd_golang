@@ -11,7 +11,7 @@ import (
 func main() {
 	products := productInventory()
 
-	os, err := order.NewOrderService(
+	orderService, err := order.NewOrderService(
 		//order2.WithMemoryCustomerRepository(),
 		order.WithMongoCustomerRepository(context.Background(), "mongodb://localhost:27017"),
 		order.WithMemoryProductRepository(products),
@@ -21,21 +21,19 @@ func main() {
 	}
 
 	tarvenObject, err := tavern.NewTavern(
-		tavern.WithOrderService(os),
+		tavern.WithOrderService(orderService),
 	)
 	if err != nil {
 		panic(err)
 	}
-	uid, err := os.AddCustomer("percy")
+	customerUUID, err := orderService.AddCustomer("percy")
 	if err != nil {
 		panic(err)
 	}
-
 	orderItem := []uuid.UUID{
 		products[0].GetID(),
 	}
-
-	err = tarvenObject.Order(uid, orderItem)
+	err = tarvenObject.Order(customerUUID, orderItem)
 	if err != nil {
 		panic(err)
 	}
